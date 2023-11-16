@@ -1,0 +1,31 @@
+import requests
+import json
+
+url = "https://management.azure.com/subscriptions/304a1406-ae26-4fa5-9432-4ee53762d6d5/resourceGroups/VirtualMachineEuan_group/providers/Microsoft.Network/networkInterfaces/%7BnetworkInterfaceName%7D?api-version=2023-05-01"
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IjlHbW55RlBraGMzaE91UjIybXZTdmduTG83WSIsImtpZCI6IjlHbW55RlBraGMzaE91UjIybXZTdmduTG83WSJ9.eyJhdWQiOiJodHRwczovL21hbmFnZW1lbnQuY29yZS53aW5kb3dzLm5ldCIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0Lzc2NjMxN2NiLWU5NDgtNGU1Zi04Y2VjLWRhYmM4ZTJmZDVkYS8iLCJpYXQiOjE3MDAxNzAxNjEsIm5iZiI6MTcwMDE3MDE2MSwiZXhwIjoxNzAwMTc0NDkzLCJhY3IiOiIxIiwiYWlvIjoiQVZRQXEvOFZBQUFBODJNUkpUL241YjlDS0JZRkVJTXYzNkloU2lNa0UzOUExS3pEMXE5YWEwQmFkd2hidnpGbUt4OGlOQUVBTTIwamhDVlVOWVRid0pCL2x2bjBZdStGWUhrdEo2Z2kyNUJjQnhMS0VFRitwRzQ9IiwiYW1yIjpbInB3ZCIsIm1mYSJdLCJhcHBpZCI6IjE4ZmJjYTE2LTIyMjQtNDVmNi04NWIwLWY3YmYyYjM5YjNmMyIsImFwcGlkYWNyIjoiMCIsImZhbWlseV9uYW1lIjoiTWNxdWlsbGFuIiwiZ2l2ZW5fbmFtZSI6IkV1YW4iLCJncm91cHMiOlsiODEwOGM1MDMtZDY1Ni00MmNmLThlZTQtODk0NGFlZjBmYWRlIiwiOTdhZjgxMmQtOTZlOS00ZjAxLThhMTEtNzU4MDMzNzYyMTdhIiwiODdmNjAwM2QtOTQ3MC00MzhmLWJmZWYtODEzYjM3ZmMyYjY4IiwiODM4YTI4OWEtODRhNC00Y2E4LWFlZWMtYjMxZWMxZDcxZDRhIiwiNGRjMDNiOWYtMWI2Yy00NDE1LWFjMDUtODI0MjcxM2M3NTIwIiwiNWFkN2Q2YjQtYWRhZi00YjlkLTk1N2YtMGYzYjYxNGJlZTYwIiwiOGFjMTU0ZGQtZDQ1Zi00YzQ2LTk0ZTUtYmI3OGZlZmEzYWVmIiwiOGM4MTg2ZWEtNDJhNC00NGFmLThhNzgtYWU5MTQwMTFlNmI0IiwiZDJhNmE4ZWYtNGQyNi00ZDk1LWJkMTEtYWExZWM2MTlmODE4IiwiYWJkNDlkZmQtY2VmYi00YzM2LWFkNjctMjVmZDlmZmQzMzdmIl0sImlkdHlwIjoidXNlciIsImlwYWRkciI6IjIwMDE6YmI2OjE0NzpmZTAwOjkxMDM6NGYwNTozZDUyOjE5MmQiLCJuYW1lIjoiQzIxNDkzNDQ2IEV1YW4gTWNxdWlsbGFuIiwib2lkIjoiNjlhNDdkY2MtMDk3Ni00MjliLTkzYWYtNjk1OTJjYjI0OWU3Iiwib25wcmVtX3NpZCI6IlMtMS01LTIxLTQwMjI5ODg0OS0xNzM0NzA1MTMxLTMxMjAwMjQwMDEtNDQxNTYiLCJwdWlkIjoiMTAwMzIwMDE3REE0NTJGMyIsInJoIjoiMC5BVEVBeXhkamRranBYMDZNN05xOGppX1Yya1pJZjNrQXV0ZFB1a1Bhd2ZqMk1CTXhBT28uIiwic2NwIjoidXNlcl9pbXBlcnNvbmF0aW9uIiwic3ViIjoiek1IVDJDajVfTUZyeFR5UjlYUDVMUW05anFoVkU0MjNrN1FfTEtHY1FkSSIsInRpZCI6Ijc2NjMxN2NiLWU5NDgtNGU1Zi04Y2VjLWRhYmM4ZTJmZDVkYSIsInVuaXF1ZV9uYW1lIjoiQzIxNDkzNDQ2QG15dHVkdWJsaW4uaWUiLCJ1cG4iOiJDMjE0OTM0NDZAbXl0dWR1Ymxpbi5pZSIsInV0aSI6IlV4cTNHZFVFYWthbVhUMHBsTWdxQUEiLCJ2ZXIiOiIxLjAiLCJ3aWRzIjpbImI3OWZiZjRkLTNlZjktNDY4OS04MTQzLTc2YjE5NGU4NTUwOSJdLCJ4bXNfY2FlIjoiMSIsInhtc190Y2R0IjoxNTI1MzM4OTQxfQ.Z6cip2MVmppeFXwgv1bvtkbEMQ5jvzzGD6Bl916JFvaChIapusKUKlTKefvuozu_nhu0FEAITBgRf0027mqfzjH3VxqlVrgsbPB0ypwOUeRKDksMsy5tnD6jSbEbc_oyenAnly7shPcWXpFpxiEc1-ZhKemtEp9WgGicyVVi6AtPJgGO9X7KmELBwtdu2NaJTf9rKB_5I5KHYZ0ctl8yGFLNB2SUsjp_94yqPh5cDMsO7lSSetn9XD_RzBQf7AaGn8qd9DhETC2vURjLnGVLytjkbWy8XOnHatJZwWJHHkRrLaNEDjykYCYHy_dEf4PPhdfjoxVmY7JfMLDfk02sow',
+
+
+data = {
+  "properties": {
+    "ipConfigurations": [
+      {
+        "name": "ipconfig1",
+        "properties": {
+          "publicIPAddress": {
+            "id": "/subscriptions/304a1406-ae26-4fa5-9432-4ee53762d6d5/resourceGroups/VirtualMachineEuan_group/providers/Microsoft.Network/publicIPAddresses/%7BpublicIpAddressName%7D?api-version=2023-05-01"
+          },
+          "subnet": {
+            "id": "/subscriptions/304a1406-ae26-4fa5-9432-4ee53762d6d5/resourceGroups/VirtualMachineEuan_group/providers/Microsoft.Network/virtualNetworks/%7BvirtualNetworkName%7D?api-version=2023-05-01"
+          }
+        }
+      }
+    ]
+  },
+  "location": "eastus"
+}
+
+response = requests.put(url, headers=headers, json=data)
+
+print(response.status_code)
+print(response.json())
